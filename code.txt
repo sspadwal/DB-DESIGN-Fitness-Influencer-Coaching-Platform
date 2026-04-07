@@ -1,0 +1,89 @@
+users [icon: user, color: blue] {
+  id SERIAL NOT NULL pk
+  firstName VARCHAR (255)
+  lastName VARCHAR (255)
+  phoneNumber  VARCHAR (100)
+  age INT
+  height DECIMAL
+  weight DECIMAL
+  createdAt TIMESTAMP 
+  updatedAt TIMESTAMP
+}
+
+address [icon: home, color: blue] {
+  id SERIAL pk
+  city VARCHAR (100)
+  street VARCHAR (100)
+  pincode VARCHAR (100)
+  user_id INT fk
+}
+
+users.id < address.user_id
+
+trainer [icon:user,color:pink]{
+  id SERIAL pk
+  name VARCHAR (100)
+}
+
+fitnessPlan [icon:plane, color : yellow]{
+  id SERIAL pk 
+  planName VARCHAR (100)
+  duration VARCHAR (100)
+  timing TIMESTAMP
+  price DECIMAL
+}
+
+join [icon:happy, color : green]{
+  id SERIAL pk 
+  fitnessPlan_id INT fk
+  trainer_id INT fk
+  start DATE
+  end DATE
+  status VARCHAR (100)
+  user_id  INT fk 
+}
+
+users.id < join.user_id
+trainer.id < join.trainer_id
+fitnessPlan.id < join.fitnessPlan_id
+
+payment [icon:money, color:silver]{
+  id SERIAL pk
+  method VARCHAR (100)
+  amount DECIMAL
+  join_id INT fk
+  createdAt TIMESTAMP
+}
+
+join.id < payment.join_id
+
+session [icon:magic,color:red]{
+  id SERIAL pk
+  trainer_id INT fk
+  fitnessPlan_id INT fk
+  startTime TIMESTAMP
+  endTime TIMESTAMP
+  createdAt TIMESTAMP
+}
+session.trainer_id < trainer.id
+fitnessPlan.id < session.fitnessPlan_id
+checkin [icon:check,color:white]{
+  id SERIAL pk
+  join_id INT fk
+  date TIMESTAMP
+  weight DECIMAL
+  notes VARCHAR (255)
+}
+join.id < checkin.join_id
+
+trainerFeedBack [icon:magic,color:yellow]{
+  id SERIAL pk
+  checkin_id INT fk
+  trainer_id INT fk 
+  feedback VARCHAR (255)
+  createdAt TIMESTAMP
+}
+
+trainerFeedBack.checkin_id < checkin.id
+trainerFeedBack.trainer_id < trainer.id
+                                     
